@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div id="myDiv" style="display: none;">
+        <p class="content">> This is a curated list that contains many high-quality resources in mathematics, computer science, and career/life-related guidance. All these resources were hand picked, reviewed, and tagged. <br>> When you check two tags, the result is the
+            intersection between them, not the union. <br>> If you encounter a broken link, or missing/confusing tags, or even submit entries, please email me.</p>
+        <style>
+            .element-box {
+                border: 3px solid #ddd;
+                padding: 10px;
+                margin: 10px 0;
+                background-color: #0000A3;
+                color: white;
+            }
+            
+            .element-box.special {
+                background-color: black;
+                color: white;
+            }
+            
+            .hidden {
+                display: none;
+            }
+            
+            .tag-item {
+                display: inline-block;
+                margin-right: 10px;
+                &:hover {
+                    color: lightseagreen;
+                    /* Change color to green on hover */
+                    text-decoration: underline;
+                    /* Add underline on hover */
+                }
+                text-align: center;
+            }
+            
+            .important-label {
+                position: relative;
+                top: 10px;
+                right: 10px;
+                background-color: red;
+                color: white;
+                padding: 2px 5px;
+                font-weight: bold;
+            }
+        </style>
+        <div id="tag-container"></div>
+        <div id="elements-container"></div>
+    </div>
+
+    <script>
+        // Function to fetch JSON data and create elements
+        function fetchAndCreateElements() {
+            const dataUrl = "https://snotrarchive.neocities.org/data/repo.json";
+            const tagContainer = document.getElementById("tag-container");
+            const elementsContainer = document.getElementById("elements-container");
+
+            fetch(dataUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const elements = data;
+                    const tags = new Set();
+
+                    elements.forEach(element => {
+                        element.tags.split(',').forEach(tag => {
+                            tags.add(tag.trim());
+                        });
+                    });
+
+                    tags.forEach(tag => {
+                        const tagItem = document.createElement("div");
+                        tagItem.className = "tag-item";
+
+                        const checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.id = tag;
+                        checkbox.value = tag;
+                        checkbox.addEventListener("change", filterElements);
+
+                        const label = document.createElement("label");
+                        label.htmlFor = tag;
+                        label.textContent = tag;
+                        label.className = "link";
+
+                        tagItem.appendChild(checkbox);
+                        tagItem.appendChild(label);
+                        tagContainer.appendChild(tagItem);
+                    });
+
+                    function filterElements() {
+                        const selectedTags = Array.from(tagContainer.querySelectorAll("input:checked")).map(input => input.value);
+
+                        elementsContainer.innerHTML = "";
+
+                        elements.forEach(element => {
+                            const elementTags = element.tags.split(',').map(tag => tag.trim());
+                            const hasAllTags = selectedTags.every(tag => elementTags.includes(tag));
+
+                            if (hasAllTags) {
+                                const elementBox = document.createElement("div");
+                                elementBox.className = "element-box";
+                                if (element.special === 1) {
+                                    elementBox.classList.add("special");
+                                    const importantLabel = document.createElement("div");
+                                    importantLabel.className = "important-label";
+                                    importantLabel.textContent = "Important Resource";
+                                    elementBox.appendChild(importantLabel);
+                                }
+
+                                const title = document.createElement("h3");
+                                title.textContent = element.text;
+
+                                const link = document.createElement("a");
+                                link.href = element.link;
+                                link.className = "link";
+                                link.textContent = element.link;
+
+                                elementBox.appendChild(title);
+                                elementBox.appendChild(link);
+                                elementsContainer.appendChild(elementBox);
+                            }
+                        });
+                    }
+
+                    // Initial render
+                    filterElements();
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const content = document.getElementById("myDiv").innerHTML;
+            fetch('template.html')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const headContent = doc.querySelector('head').innerHTML;
+                    const scripts = doc.querySelectorAll('script');
+
+                    // Append head content
+                    document.head.innerHTML = headContent;
+
+                    // Append body content
+                    document.body.innerHTML = doc.body.innerHTML;
+
+                    // Reinsert the fetched content
+                    document.querySelector('#main').innerHTML = content;
+
+                    // Execute script tags
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = script.textContent;
+                        document.body.appendChild(newScript);
+                    });
+
+                    // Now that the template is loaded, fetch and create elements
+                    fetchAndCreateElements();
+                })
+                .catch(error => console.error(error));
+        });
+    </script>
+</body>
+
+</html>

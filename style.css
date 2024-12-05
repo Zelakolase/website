@@ -1,0 +1,69 @@
+html,
+body {
+    background-color: #0000A3;
+    margin: 5px;
+    min-height: 100%;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.navbar {
+    width: 100%;
+    background-color: white;
+    /* Adjust background color as needed */
+    display: flex;
+    /* Use flexbox for layout */
+    justify-content: flex-start;
+    /* Move elements to the left */
+    /* Align elements horizontally */
+    align-items: center;
+    /* Align elements vertically */
+    height: auto;
+    /* Remove fixed height */
+    min-height: 30px;
+}
+
+.name {
+    color: #0000A3;
+    font-size: 1.2em;
+    margin: 0 40px;
+    flex-grow: 0;
+    /* Prevent name from expanding the space */
+    /* Add some margin from the edge */
+}
+
+.content {
+    color: white;
+    font-size: medium;
+    margin: 10px;
+}
+
+.link {
+    color: #FFE01A;
+    /* Yellow color */
+    font-weight: bold;
+    /* Add some margin between links */
+    cursor: pointer;
+    /* Indicate clickable links */
+    margin: 0 5px;
+    /* Reduce margin between links */
+    text-align: center;
+    /* Center the text within each link */
+    /* New hover styles */
+    &:hover {
+        color: lightseagreen;
+        /* Change color to green on hover */
+        text-decoration: underline;
+        /* Add underline on hover */
+    }
+}
+
+.footer {
+    bottom: 0;
+    min-height: 20px;
+    height: auto;
+    background-color: white;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
