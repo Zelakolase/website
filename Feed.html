@@ -9,7 +9,7 @@
         import { loadTemplate } from './site/loadTemplate.js';
         import { fetchAndCreateElements } from './site/JSONGrabber.js';
         window.addEventListener('DOMContentLoaded', () => {
-            fetchAndCreateElements('./data/repo.json');
+            fetchAndCreateElements('./data/feedData.json');
             loadTemplate();
         });
     </script>
@@ -18,8 +18,7 @@
 <body>
     <div id="myDiv" style="display: none;">
         <p class="content">
-            > This is a curated list that contains many high-quality resources in mathematics, computer science, and career/life-related guidance. All these resources were hand-picked, reviewed, and tagged.<br>
-            > If you encounter a broken link, or missing/confusing tags, or even submit entries, please email me.
+            > Links to posts and articles I wrote
         </p>
         <div id="elements-container"></div>
     </div>

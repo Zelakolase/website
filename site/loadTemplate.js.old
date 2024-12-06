@@ -1,0 +1,99 @@
+export async function loadTemplate(dynamicContentId = 'myDiv', mainElementId = 'main', callback) {
+    try {
+        // Get the base URL (including domain and protocol)
+        const baseURL = window.location.origin;  // Example: "http://localhost:3000" or "https://yoursite.com"
+
+        // Fetch the template
+        const response = await fetch(baseURL + '/template.html');  // Use the base URL here
+        if (!response.ok) throw new Error("Failed to fetch template");
+        const html = await response.text();
+
+        // Parse the template HTML
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        // Import the head content
+        const templateHead = doc.querySelector('head');
+        if (templateHead) {
+            document.head.innerHTML += templateHead.innerHTML;
+
+            // Update links dynamically in the head
+            const links = document.head.querySelectorAll('link');
+            links.forEach(link => {
+                if (link.href) {
+                    link.href = baseURL + '/' + link.getAttribute('href');  // Prepend base URL and / to href
+                }
+            });
+
+            // Update script tags dynamically in the head
+            const scripts = document.head.querySelectorAll('script');
+            scripts.forEach(script => {
+                if (script.src) {
+                    script.src = baseURL + '/' + script.getAttribute('src');  // Prepend base URL and / to src
+                }
+            });
+        }
+
+        // Import the body content
+        const templateBody = doc.querySelector('body');
+        if (templateBody) {
+            // Insert the header and footer into the current document
+            const navbar = templateBody.querySelector('.navbar');
+            const footer = templateBody.querySelector('.footer');
+            
+            if (navbar) {
+                document.body.insertAdjacentElement('afterbegin', navbar.cloneNode(true));
+            }
+
+            // Replace #main content dynamically
+            const mainTemplate = templateBody.querySelector(`#${mainElementId}`);
+            const dynamicContent = document.getElementById(dynamicContentId);
+
+            if (mainTemplate && dynamicContent) {
+                mainTemplate.innerHTML = dynamicContent.innerHTML; // Insert dynamic content
+                mainTemplate.style.display = 'block'; // Ensure visibility
+                dynamicContent.remove(); // Clean up
+                document.body.appendChild(mainTemplate); // Append updated main to the body
+            }
+
+            if (footer) {
+                document.body.insertAdjacentElement('beforeend', footer.cloneNode(true));
+            }
+
+            // Update all links dynamically in the body
+            const allLinks = document.body.querySelectorAll('a');
+            allLinks.forEach(link => {
+                if (link.href) {
+                    link.href = baseURL + '/' + link.getAttribute('href');  // Prepend base URL and / to href
+                }
+            });
+
+            // Update all images dynamically in the body
+            const images = document.body.querySelectorAll('img');
+            images.forEach(img => {
+                if (img.src) {
+                    img.src = baseURL + '/' + img.getAttribute('src');  // Prepend base URL and / to src
+                }
+            });
+        }
+
+        // Dynamically load and execute scripts from the template
+        const scriptsToLoad = doc.querySelectorAll('script');
+        scriptsToLoad.forEach(script => {
+            const newScript = document.createElement('script');
+            if (script.src) {
+                newScript.src = baseURL + '/' + script.getAttribute('src');  // Prepend base URL and / to external script src
+            } else {
+                newScript.textContent = script.textContent;  // Inline script content
+            }
+            document.body.appendChild(newScript);
+        });
+
+        if (callback) {
+            callback();
+        }
+
+    } catch (error) {
+        console.error("Error loading template:", error);
+    }
+}

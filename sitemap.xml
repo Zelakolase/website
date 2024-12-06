@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
-		<loc>https://www.snotrarchive.neocities.org</loc>
+		<loc>http://www.snotrarchive.neocities.org</loc>
 		<priority>1.00</priority>
-		<lastmod>2024-05-21</lastmod>
+		<lastmod>2024-12-06</lastmod>
 	</url>
 	<url>
-		<loc>https://www.snotrarchive.neocities.org/template.html</loc>
-		<priority>0.50</priority>
-		<lastmod>2024-07-20</lastmod>
+		<loc>http://www.snotrarchive.neocities.org/template.html</loc>
+		<priority>0.67</priority>
+		<lastmod>2024-12-06</lastmod>
 	</url>
 	<url>
-		<loc>https://www.snotrarchive.neocities.org/about.html</loc>
-		<priority>0.50</priority>
-		<lastmod>2024-05-22</lastmod>
+		<loc>http://www.snotrarchive.neocities.org/not_found.html</loc>
+		<priority>0.67</priority>
+		<lastmod>2024-12-06</lastmod>
 	</url>
 	<url>
-		<loc>https://www.snotrarchive.neocities.org/Resources.html</loc>
-		<priority>1.00</priority>
-		<lastmod>2024-07-21</lastmod>
+		<loc>http://www.snotrarchive.neocities.org/Resources.html</loc>
+		<priority>0.67</priority>
+		<lastmod>2024-12-05</lastmod>
+	</url>
+	<url>
+		<loc>http://www.snotrarchive.neocities.org/Feed.html</loc>
+		<priority>0.67</priority>
+		<lastmod>2024-12-06</lastmod>
+	</url>
+	<url>
+		<loc>http://www.snotrarchive.neocities.org/Feed/Test.html</loc>
+		<priority>0.33</priority>
+		<lastmod>2024-12-06</lastmod>
 	</url>
 </urlset>

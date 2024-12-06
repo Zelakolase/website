@@ -1,0 +1,31 @@
+.element-box {
+    border: 3px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #0000A3;
+    color: white;
+}
+
+.element-box.special {
+    background-color: black;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+.tag-item {
+    display: inline-block;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.tag-item:hover {
+    color: lightseagreen;
+    text-decoration: underline;
+}
+
+.additional {
+    padding: 5px;    
+}
