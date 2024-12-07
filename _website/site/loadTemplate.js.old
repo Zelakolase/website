@@ -60,10 +60,10 @@ export async function loadTemplate(dynamicContentId = 'myDiv', mainElementId = '
                 document.body.insertAdjacentElement('beforeend', footer.cloneNode(true));
             }
 
-            // Update all links dynamically in the body
+            // Update all links dynamically in the body, excluding those with class 'sLink'
             const allLinks = document.body.querySelectorAll('a');
             allLinks.forEach(link => {
-                if (link.href) {
+                if (link.href && !link.classList.contains('sLink')) {
                     link.href = baseURL + '/' + link.getAttribute('href');  // Prepend base URL and / to href
                 }
             });

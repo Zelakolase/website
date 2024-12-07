@@ -37,7 +37,7 @@ body {
     margin: 10px;
 }
 
-.link {
+.sLink, .link {
     color: #FFE01A;
     /* Yellow color */
     font-weight: bold;
